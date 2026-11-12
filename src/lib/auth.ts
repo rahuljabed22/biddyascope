@@ -14,17 +14,22 @@ function getSecret(): string {
 }
 
 export function getAdminPassword(): string {
-  return process.env.ADMIN_PASSWORD || "biddyascope-admin-2026";
+  const envPw = process.env.ADMIN_PASSWORD?.trim();
+  return envPw || "biddyascope-admin-2026";
 }
 
 export function isUsingDefaultPassword(): boolean {
-  return !process.env.ADMIN_PASSWORD;
+  return !process.env.ADMIN_PASSWORD?.trim();
 }
 
 export async function isUsingDefaultPasswordAsync(): Promise<boolean> {
-  if (process.env.ADMIN_PASSWORD) return false;
-  const dbHash = await getAdminPasswordHash();
-  return !dbHash;
+  if (process.env.ADMIN_PASSWORD?.trim()) return false;
+  try {
+    const dbHash = await getAdminPasswordHash();
+    return !dbHash;
+  } catch {
+    return true;
+  }
 }
 
 export function hashPassword(password: string): string {
@@ -53,9 +58,13 @@ export function verifyPassword(input: string): boolean {
 }
 
 export async function verifyAdminPassword(input: string): Promise<boolean> {
-  const dbHash = await getAdminPasswordHash();
-  if (dbHash) {
-    return verifyPasswordHash(input, dbHash);
+  try {
+    const dbHash = await getAdminPasswordHash();
+    if (dbHash) {
+      return verifyPasswordHash(input, dbHash);
+    }
+  } catch (err) {
+    console.error("DB password lookup failed, falling back to env:", err);
   }
   return verifyPassword(input);
 }

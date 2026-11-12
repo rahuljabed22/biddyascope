@@ -226,7 +226,10 @@ async function ensurePgReady(): Promise<void> {
           );
         }
       }
-    })();
+    })().catch((err) => {
+      pgInitPromise = null;
+      throw err;
+    });
   }
   await pgInitPromise;
 }

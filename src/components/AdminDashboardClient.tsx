@@ -99,7 +99,12 @@ export default function AdminDashboardClient({
         body: JSON.stringify({ password }),
       });
       if (!res.ok) {
-        setLoginError("Incorrect admin password.");
+        const errJson = await res.json().catch(() => ({}));
+        setLoginError(
+          res.status === 401
+            ? "Incorrect admin password."
+            : errJson.error || `Server error (${res.status}). Check Vercel Logs.`
+        );
         return;
       }
       setPassword("");
