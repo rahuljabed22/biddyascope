@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+:root {
+  --bg-ivory: #faf8f4;
+  --ink-navy: #0b162c;
+  --emerald-accent: #0f766e;
+  --gold-accent: #b45309;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-ivory);
+  color: var(--ink-navy);
+  font-family: var(--font-jakarta), var(--font-hind), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-mono-code {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+}
