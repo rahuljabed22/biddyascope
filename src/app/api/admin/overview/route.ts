@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { isAdminAuthenticated, isUsingDefaultPassword } from "@/lib/auth";
+import { isAdminAuthenticated, isUsingDefaultPasswordAsync } from "@/lib/auth";
 import {
   getAnalytics,
   getSettings,
@@ -18,17 +18,19 @@ export async function GET() {
   }
 
   try {
-    const [settings, subjects, tutors, applications, analytics] = await Promise.all([
-      getSettings(),
-      listSubjects(false),
-      listTutors(false),
-      listApplications(),
-      getAnalytics(),
-    ]);
+    const [settings, subjects, tutors, applications, analytics, usingDefaultPassword] =
+      await Promise.all([
+        getSettings(),
+        listSubjects(false),
+        listTutors(false),
+        listApplications(),
+        getAnalytics(),
+        isUsingDefaultPasswordAsync(),
+      ]);
 
     return NextResponse.json({
       storageMode: getStorageMode(),
-      usingDefaultPassword: isUsingDefaultPassword(),
+      usingDefaultPassword,
       settings,
       subjects,
       tutors,

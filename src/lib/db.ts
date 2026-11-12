@@ -21,6 +21,7 @@ interface StoreShape {
   tutors: Tutor[];
   applications: TutorApplication[];
   pageViews: PageView[];
+  adminPasswordHash?: string;
 }
 
 const PG_CONN = process.env.DATABASE_URL || process.env.POSTGRES_URL || "";
@@ -75,6 +76,10 @@ async function readLocalStore(): Promise<StoreShape> {
       tutors: Array.isArray(parsed.tutors) ? parsed.tutors : [...DEFAULT_TUTORS],
       applications: Array.isArray(parsed.applications) ? parsed.applications : [],
       pageViews: Array.isArray(parsed.pageViews) ? parsed.pageViews : [],
+      adminPasswordHash:
+        typeof parsed.adminPasswordHash === "string"
+          ? parsed.adminPasswordHash
+          : undefined,
     };
   } catch {
     const initial: StoreShape = {
@@ -257,6 +262,34 @@ export async function updateSettings(patch: Partial<SiteSettings>): Promise<Site
     store.settings = { ...store.settings, ...patch, updatedAt };
     await writeLocalStore(store);
     return store.settings;
+  });
+}
+
+export async function getAdminPasswordHash(): Promise<string | null> {
+  if (PG_CONN) {
+    await ensurePgReady();
+    const res = await getPool().query("SELECT data FROM bs_settings WHERE id = 'admin_auth'");
+    const hash = res.rows[0]?.data?.passwordHash;
+    return typeof hash === "string" && hash.length > 0 ? hash : null;
+  }
+  const store = await readLocalStore();
+  return store.adminPasswordHash || null;
+}
+
+export async function setAdminPasswordHash(passwordHash: string): Promise<void> {
+  if (PG_CONN) {
+    await ensurePgReady();
+    await getPool().query(
+      `INSERT INTO bs_settings (id, data, updated_at) VALUES ('admin_auth', $1::jsonb, NOW())
+       ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data, updated_at = NOW()`,
+      [JSON.stringify({ passwordHash })]
+    );
+    return;
+  }
+  await withFileLock(async () => {
+    const store = await readLocalStore();
+    store.adminPasswordHash = passwordHash;
+    await writeLocalStore(store);
   });
 }
 

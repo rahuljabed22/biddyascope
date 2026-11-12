@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import { cookies } from "next/headers";
+import { getAdminPasswordHash } from "./db";
 
 const COOKIE_NAME = "bs_admin_session";
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7 days
@@ -20,12 +21,43 @@ export function isUsingDefaultPassword(): boolean {
   return !process.env.ADMIN_PASSWORD;
 }
 
+export async function isUsingDefaultPasswordAsync(): Promise<boolean> {
+  if (process.env.ADMIN_PASSWORD) return false;
+  const dbHash = await getAdminPasswordHash();
+  return !dbHash;
+}
+
+export function hashPassword(password: string): string {
+  const salt = crypto.randomBytes(16).toString("hex");
+  const derived = crypto.scryptSync(password, salt, 64).toString("hex");
+  return `${salt}:${derived}`;
+}
+
+export function verifyPasswordHash(password: string, stored: string): boolean {
+  const parts = stored.split(":");
+  if (parts.length !== 2) return false;
+  const [salt, expectedHex] = parts;
+  if (!salt || !expectedHex) return false;
+  const derived = crypto.scryptSync(password, salt, 64);
+  const expected = Buffer.from(expectedHex, "hex");
+  if (derived.length !== expected.length) return false;
+  return crypto.timingSafeEqual(derived, expected);
+}
+
 export function verifyPassword(input: string): boolean {
   const expected = getAdminPassword();
   const a = Buffer.from(input);
   const b = Buffer.from(expected);
   if (a.length !== b.length) return false;
   return crypto.timingSafeEqual(a, b);
+}
+
+export async function verifyAdminPassword(input: string): Promise<boolean> {
+  const dbHash = await getAdminPasswordHash();
+  if (dbHash) {
+    return verifyPasswordHash(input, dbHash);
+  }
+  return verifyPassword(input);
 }
 
 export function createSessionToken(): string {

@@ -278,8 +278,9 @@ export default function AdminDashboardClient({
           <div className="rounded-xl bg-sky-50 border border-sky-200 px-4 py-3 flex items-center gap-2.5 text-xs text-sky-900">
             <Lock className="w-4 h-4 text-sky-700 shrink-0" />
             <span>
-              Default admin password is active (<code className="font-mono-code font-bold">biddyascope-admin-2026</code>). Set{" "}
-              <code className="font-mono-code font-bold">ADMIN_PASSWORD</code> in Vercel Environment Variables before sharing publicly.
+              Default admin password is active (<code className="font-mono-code font-bold">biddyascope-admin-2026</code>). Change it in the{" "}
+              <strong>Site Content & Settings</strong> tab below (stored encrypted in DB) or set{" "}
+              <code className="font-mono-code font-bold">ADMIN_PASSWORD</code> in Vercel Environment Variables.
             </span>
           </div>
         )}
@@ -1659,6 +1660,12 @@ function SettingsTab({
   const [form, setForm] = useState<SiteSettings>(settings);
   const [saving, setSaving] = useState(false);
 
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [pwSaving, setPwSaving] = useState(false);
+  const [pwError, setPwError] = useState("");
+
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
@@ -1677,11 +1684,123 @@ function SettingsTab({
     }
   }
 
+  async function handleChangePassword(e: React.FormEvent) {
+    e.preventDefault();
+    setPwError("");
+    if (newPassword.length < 6) {
+      setPwError("New password must be at least 6 characters.");
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setPwError("New password and confirm password do not match.");
+      return;
+    }
+    setPwSaving(true);
+    try {
+      const res = await fetch("/api/admin/password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        setPwError(json.error || "Failed to update password.");
+      } else {
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        showToast("Admin password updated securely!");
+        await onRefresh();
+      }
+    } catch {
+      setPwError("Network error while updating password.");
+    } finally {
+      setPwSaving(false);
+    }
+  }
+
   return (
-    <form
-      onSubmit={handleSave}
-      className="rounded-2xl bg-white p-6 sm:p-8 border border-[#0B162C]/10 shadow-sm space-y-6"
-    >
+    <div className="space-y-6">
+      <form
+        onSubmit={handleChangePassword}
+        className="rounded-2xl bg-white p-6 sm:p-8 border border-[#0B162C]/10 shadow-sm space-y-4"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#0B162C]/10 pb-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-[#0B162C] text-amber-300 flex items-center justify-center">
+              <Lock className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-base">
+                Change Admin Password
+              </h3>
+              <p className="text-xs text-[#0B162C]/60">
+                Stored securely as an encrypted scrypt hash in your database (never exposed in Git).
+              </p>
+            </div>
+          </div>
+          <button
+            type="submit"
+            disabled={pwSaving}
+            className="px-5 py-2.5 rounded-xl bg-[#0B162C] text-white text-xs font-bold hover:bg-teal-900 cursor-pointer"
+          >
+            {pwSaving ? "Updating..." : "Update Password"}
+          </button>
+        </div>
+
+        <div className="grid sm:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-xs font-bold mb-1">
+              Current Password
+            </label>
+            <input
+              type="password"
+              required
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              placeholder="Current password"
+              className="w-full rounded-xl border border-[#0B162C]/15 px-3 py-2 text-xs"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-bold mb-1">
+              New Password
+            </label>
+            <input
+              type="password"
+              required
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="Min 6 characters"
+              className="w-full rounded-xl border border-[#0B162C]/15 px-3 py-2 text-xs"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-bold mb-1">
+              Confirm New Password
+            </label>
+            <input
+              type="password"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Repeat new password"
+              className="w-full rounded-xl border border-[#0B162C]/15 px-3 py-2 text-xs"
+            />
+          </div>
+        </div>
+
+        {pwError && (
+          <div className="rounded-xl bg-rose-50 border border-rose-200 px-3 py-2 text-xs font-semibold text-rose-700">
+            {pwError}
+          </div>
+        )}
+      </form>
+
+      <form
+        onSubmit={handleSave}
+        className="rounded-2xl bg-white p-6 sm:p-8 border border-[#0B162C]/10 shadow-sm space-y-6"
+      >
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#0B162C]/10 pb-4">
         <div>
           <h3 className="font-extrabold text-lg">
@@ -1905,6 +2024,7 @@ function SettingsTab({
           />
         </div>
       </div>
-    </form>
+      </form>
+    </div>
   );
 }

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   createSessionToken,
   SESSION_COOKIE_NAME,
-  verifyPassword,
+  verifyAdminPassword,
 } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const password = String(body?.password || "");
 
-    if (!verifyPassword(password)) {
+    if (!(await verifyAdminPassword(password))) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
 
