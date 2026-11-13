@@ -693,10 +693,12 @@ function ApplicationsTab({
   showToast: (m: string) => void;
 }) {
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [studyModeFilter, setStudyModeFilter] = useState<string>("all");
   const [search, setSearch] = useState("");
 
   const filtered = applications.filter((a) => {
     if (statusFilter !== "all" && a.status !== statusFilter) return false;
+    if (studyModeFilter !== "all" && a.studyMode !== studyModeFilter) return false;
     if (!search.trim()) return true;
     const q = search.toLowerCase();
     return (
@@ -710,35 +712,61 @@ function ApplicationsTab({
 
   return (
     <div className="space-y-4">
-      <div className="rounded-2xl bg-white p-4 border border-[#0B162C]/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div className="flex flex-wrap gap-1.5">
-          {["all", "pending", "contacted", "matched", "completed", "cancelled"].map(
-            (st) => (
-              <button
-                key={st}
-                type="button"
-                onClick={() => setStatusFilter(st)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize cursor-pointer ${
-                  statusFilter === st
-                    ? "bg-[#0B162C] text-white"
-                    : "bg-[#F3F5F8] text-[#0B162C]/70 hover:text-[#0B162C]"
-                }`}
-              >
-                {st}
-              </button>
-            )
-          )}
+      <div className="rounded-2xl bg-white p-4 border border-[#0B162C]/10 flex flex-col gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex flex-wrap gap-1.5">
+            {["all", "pending", "contacted", "matched", "completed", "cancelled"].map(
+              (st) => (
+                <button
+                  key={st}
+                  type="button"
+                  onClick={() => setStatusFilter(st)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize cursor-pointer ${
+                    statusFilter === st
+                      ? "bg-[#0B162C] text-white"
+                      : "bg-[#F3F5F8] text-[#0B162C]/70 hover:text-[#0B162C]"
+                  }`}
+                >
+                  {st}
+                </button>
+              )
+            )}
+          </div>
+
+          <div className="relative">
+            <Search className="w-3.5 h-3.5 text-[#0B162C]/40 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search name, phone, code..."
+              className="pl-8 pr-3 py-1.5 rounded-xl border border-[#0B162C]/15 text-xs focus:outline-none focus:ring-2 focus:ring-teal-600"
+            />
+          </div>
         </div>
 
-        <div className="relative">
-          <Search className="w-3.5 h-3.5 text-[#0B162C]/40 absolute left-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search name, phone, code..."
-            className="pl-8 pr-3 py-1.5 rounded-xl border border-[#0B162C]/15 text-xs focus:outline-none focus:ring-2 focus:ring-teal-600"
-          />
+        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[#0B162C]/5">
+          <span className="text-[11px] font-bold text-[#0B162C]/55 uppercase">
+            Study Format:
+          </span>
+          {[
+            { key: "all", label: "All Formats" },
+            { key: "solo", label: "Solo (1-on-1)" },
+            { key: "group", label: "2–3 Student Group Batch" },
+          ].map((m) => (
+            <button
+              key={m.key}
+              type="button"
+              onClick={() => setStudyModeFilter(m.key)}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold cursor-pointer ${
+                studyModeFilter === m.key
+                  ? "bg-amber-700 text-white"
+                  : "bg-[#FAF8F4] text-[#0B162C]/70 border border-[#0B162C]/10 hover:text-[#0B162C]"
+              }`}
+            >
+              {m.label}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -835,6 +863,18 @@ function ApplicationCard({
             >
               {app.status}
             </span>
+            <span
+              className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${
+                app.studyMode === "group"
+                  ? "bg-amber-600 text-white"
+                  : "bg-slate-100 text-slate-700"
+              }`}
+            >
+              {app.studyMode === "group" ? "Group Batch (2–3)" : "Solo (1-on-1)"}
+            </span>
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200">
+              {app.subjectCount === 2 ? "2 Subjects Combo" : "1 Subject"}
+            </span>
           </div>
           <p className="text-xs text-[#0B162C]/65 mt-1">
             Submitted {new Date(app.createdAt).toLocaleString()} • IP:{" "}
@@ -878,12 +918,22 @@ function ApplicationCard({
             {app.daysPerWeek} days/wk • {app.tutorGenderPref}
           </span>
         </div>
-        {(app.fullAddress || app.notes) && (
-          <div className="sm:col-span-2 lg:col-span-4 pt-1 border-t border-[#0B162C]/10">
-            <span className="text-[#0B162C]/55">Address / Notes: </span>
-            <span className="font-medium">
-              {[app.fullAddress, app.notes].filter(Boolean).join(" — ")}
-            </span>
+        {(app.fullAddress || app.notes || (app.studyMode === "group" && app.groupPreference)) && (
+          <div className="sm:col-span-2 lg:col-span-4 pt-1 border-t border-[#0B162C]/10 space-y-1">
+            {app.studyMode === "group" && app.groupPreference && (
+              <div>
+                <span className="text-amber-800 font-bold">Group Preference: </span>
+                <span className="font-semibold text-amber-950">{app.groupPreference}</span>
+              </div>
+            )}
+            {(app.fullAddress || app.notes) && (
+              <div>
+                <span className="text-[#0B162C]/55">Address / Notes: </span>
+                <span className="font-medium">
+                  {[app.fullAddress, app.notes].filter(Boolean).join(" — ")}
+                </span>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -1334,7 +1384,11 @@ function TutorsTab({
   }
 
   return (
-    <div className="grid lg:grid-cols-12 gap-6 items-start">
+    <div className="space-y-4">
+      <div className="rounded-xl bg-sky-50 border border-sky-200 px-4 py-3 text-xs text-sky-900">
+        <strong>Internal Roster Only:</strong> Tutor profiles are hidden from the public website and `/apply` page. Manage mentors here privately for assigning applications.
+      </div>
+      <div className="grid lg:grid-cols-12 gap-6 items-start">
       <form
         onSubmit={handleAdd}
         className="lg:col-span-4 rounded-2xl bg-white p-6 border border-[#0B162C]/10 shadow-sm space-y-3"
@@ -1454,6 +1508,7 @@ function TutorsTab({
             showToast={showToast}
           />
         ))}
+      </div>
       </div>
     </div>
   );

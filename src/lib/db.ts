@@ -182,6 +182,10 @@ async function ensurePgReady(): Promise<void> {
         CREATE INDEX IF NOT EXISTS idx_bs_page_views_created_at ON bs_page_views(created_at DESC);
         CREATE INDEX IF NOT EXISTS idx_bs_page_views_ip ON bs_page_views(ip_address);
         CREATE INDEX IF NOT EXISTS idx_bs_applications_created_at ON bs_applications(created_at DESC);
+
+        ALTER TABLE bs_applications ADD COLUMN IF NOT EXISTS subject_count INTEGER NOT NULL DEFAULT 1;
+        ALTER TABLE bs_applications ADD COLUMN IF NOT EXISTS study_mode TEXT NOT NULL DEFAULT 'solo';
+        ALTER TABLE bs_applications ADD COLUMN IF NOT EXISTS group_preference TEXT NOT NULL DEFAULT '';
       `);
 
       const settingsRes = await pool.query("SELECT id FROM bs_settings WHERE id = 'default'");
@@ -544,11 +548,12 @@ export async function createApplication(
     await getPool().query(
       `INSERT INTO bs_applications (
         id, tracking_code, student_name, phone, guardian_phone, college, hsc_batch,
-        subject_id, subject_name, area, full_address, days_per_week, preferred_time,
+        subject_count, subject_id, subject_name, study_mode, group_preference,
+        area, full_address, days_per_week, preferred_time,
         tutor_gender_pref, notes, status, assigned_tutor_id, assigned_tutor_name,
         admin_notes, ip_address, created_at, updated_at
       ) VALUES (
-        $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22
+        $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25
       )`,
       [
         app.id,
@@ -558,8 +563,11 @@ export async function createApplication(
         app.guardianPhone || "",
         app.college,
         app.hscBatch,
+        app.subjectCount,
         app.subjectId,
         app.subjectName,
+        app.studyMode,
+        app.groupPreference,
         app.area,
         app.fullAddress,
         app.daysPerWeek,
@@ -856,6 +864,8 @@ function mapTutorRow(row: Record<string, unknown>): Tutor {
 }
 
 function mapApplicationRow(row: Record<string, unknown>): TutorApplication {
+  const rawSubjectCount = Number(row.subject_count ?? 1);
+  const rawStudyMode = String(row.study_mode ?? "solo");
   return {
     id: String(row.id),
     trackingCode: String(row.tracking_code),
@@ -864,8 +874,11 @@ function mapApplicationRow(row: Record<string, unknown>): TutorApplication {
     guardianPhone: String(row.guardian_phone ?? ""),
     college: String(row.college ?? ""),
     hscBatch: String(row.hsc_batch ?? ""),
+    subjectCount: rawSubjectCount === 2 ? 2 : 1,
     subjectId: String(row.subject_id),
     subjectName: String(row.subject_name),
+    studyMode: rawStudyMode === "group" ? "group" : "solo",
+    groupPreference: String(row.group_preference ?? ""),
     area: String(row.area ?? ""),
     fullAddress: String(row.full_address ?? ""),
     daysPerWeek: Number(row.days_per_week ?? 3),

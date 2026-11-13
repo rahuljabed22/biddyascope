@@ -40,8 +40,11 @@ export interface TutorApplication {
   guardianPhone?: string;
   college: string;
   hscBatch: string;
+  subjectCount: 1 | 2;
   subjectId: string;
   subjectName: string;
+  studyMode: "solo" | "group";
+  groupPreference: string;
   area: string;
   fullAddress: string;
   daysPerWeek: number;
