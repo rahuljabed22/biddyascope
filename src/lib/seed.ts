@@ -3,6 +3,19 @@ import { SiteSettings, Subject, Tutor } from "./types";
 export const LEGACY_ANTI_MEDIA_DESC_BN =
   "গতানুগতিক টিউশন মিডিয়া কেবল কমিশনের জন্য যাকে-তাকে পাঠিয়ে দেয়। কিন্তু বিদ্যাস্কোপে আমরা সিলেক্টিভ টিচার দেই—যাদের প্রত্যেকের রয়েছে ২ থেকে ৪+ বছরের পড়ানোর বাস্তব অভিজ্ঞতা এবং সবাই কুয়েট বা খুলনা মেডিকেলের ৩য় ও ৪র্থ বর্ষের শিক্ষার্থী।";
 
+export const LEGACY_CONTACT_PHONES = new Set([
+  "",
+  "+880 1700-000000",
+  "01700-000000",
+  "01700000000",
+]);
+
+export const LEGACY_WHATSAPP_NUMBERS = new Set([
+  "",
+  "8801700000000",
+  "01700000000",
+]);
+
 export const DEFAULT_SETTINGS: SiteSettings = {
   brandName: "বিদ্যাস্কোপ",
   announcementText:
@@ -30,8 +43,8 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     "Khulna City (Sonadanga, Boyra, Nirala, Khalishpur, Daulatpur, Gollamari & Nearby)",
   serviceAreaBn:
     "খুলনা শহর (সোনাডাঙ্গা, বয়রা, নিরালা, খালিশপুর, দৌলতপুর, গল্লামারী ও পার্শ্ববর্তী এলাকা)",
-  contactPhone: "+880 1700-000000",
-  whatsappNumber: "8801700000000",
+  contactPhone: "01902413185",
+  whatsappNumber: "8801851911262",
   contactEmail: "admissions@biddyascope.com",
   footerTagline:
     "Our own selective initiative — Verified, experienced HSC Science mentors from KUET & Khulna Medical College.",

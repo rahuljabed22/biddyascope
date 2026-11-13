@@ -16,7 +16,49 @@ import {
   DEFAULT_SUBJECTS,
   DEFAULT_TUTORS,
   LEGACY_ANTI_MEDIA_DESC_BN,
+  LEGACY_CONTACT_PHONES,
+  LEGACY_WHATSAPP_NUMBERS,
 } from "./seed";
+
+function resolveUpgradedSettings(existingData: Partial<SiteSettings>): {
+  next: SiteSettings;
+  changed: boolean;
+} {
+  const needsAntiMediaUpgrade =
+    existingData.antiMediaDescriptionBn === LEGACY_ANTI_MEDIA_DESC_BN;
+  const needsPhoneUpgrade = LEGACY_CONTACT_PHONES.has(
+    (existingData.contactPhone || "").trim()
+  );
+  const needsWhatsappUpgrade = LEGACY_WHATSAPP_NUMBERS.has(
+    (existingData.whatsappNumber || "").trim()
+  );
+
+  const base: SiteSettings = needsAntiMediaUpgrade
+    ? {
+        ...existingData,
+        ...DEFAULT_SETTINGS,
+        contactPhone: existingData.contactPhone || DEFAULT_SETTINGS.contactPhone,
+        whatsappNumber: existingData.whatsappNumber || DEFAULT_SETTINGS.whatsappNumber,
+        contactEmail: existingData.contactEmail || DEFAULT_SETTINGS.contactEmail,
+        serviceArea: existingData.serviceArea || DEFAULT_SETTINGS.serviceArea,
+        serviceAreaBn: existingData.serviceAreaBn || DEFAULT_SETTINGS.serviceAreaBn,
+        updatedAt: new Date().toISOString(),
+      }
+    : { ...DEFAULT_SETTINGS, ...existingData };
+
+  if (needsPhoneUpgrade) {
+    base.contactPhone = DEFAULT_SETTINGS.contactPhone;
+  }
+  if (needsWhatsappUpgrade) {
+    base.whatsappNumber = DEFAULT_SETTINGS.whatsappNumber;
+  }
+
+  const changed = needsAntiMediaUpgrade || needsPhoneUpgrade || needsWhatsappUpgrade;
+  if (changed) {
+    base.updatedAt = new Date().toISOString();
+  }
+  return { next: base, changed };
+}
 
 export type StorageMode = "postgres" | "file" | "ephemeral-tmp";
 
@@ -75,8 +117,9 @@ async function readLocalStore(): Promise<StoreShape> {
   try {
     const raw = await fs.readFile(filePath, "utf8");
     const parsed = JSON.parse(raw) as Partial<StoreShape>;
+    const { next: resolvedSettings } = resolveUpgradedSettings(parsed.settings || {});
     return {
-      settings: { ...DEFAULT_SETTINGS, ...(parsed.settings || {}) },
+      settings: resolvedSettings,
       subjects: Array.isArray(parsed.subjects) ? parsed.subjects : [...DEFAULT_SUBJECTS],
       tutors: Array.isArray(parsed.tutors) ? parsed.tutors : [...DEFAULT_TUTORS],
       applications: Array.isArray(parsed.applications) ? parsed.applications : [],
@@ -201,17 +244,8 @@ async function ensurePgReady(): Promise<void> {
         );
       } else {
         const existingData = (settingsRes.rows[0]?.data || {}) as Partial<SiteSettings>;
-        if (existingData.antiMediaDescriptionBn === LEGACY_ANTI_MEDIA_DESC_BN) {
-          const upgraded: SiteSettings = {
-            ...existingData,
-            ...DEFAULT_SETTINGS,
-            contactPhone: existingData.contactPhone || DEFAULT_SETTINGS.contactPhone,
-            whatsappNumber: existingData.whatsappNumber || DEFAULT_SETTINGS.whatsappNumber,
-            contactEmail: existingData.contactEmail || DEFAULT_SETTINGS.contactEmail,
-            serviceArea: existingData.serviceArea || DEFAULT_SETTINGS.serviceArea,
-            serviceAreaBn: existingData.serviceAreaBn || DEFAULT_SETTINGS.serviceAreaBn,
-            updatedAt: new Date().toISOString(),
-          };
+        const { next: upgraded, changed } = resolveUpgradedSettings(existingData);
+        if (changed) {
           await pool.query(
             "UPDATE bs_settings SET data = $1::jsonb, updated_at = NOW() WHERE id = 'default'",
             [JSON.stringify(upgraded)]

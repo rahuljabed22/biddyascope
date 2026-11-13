@@ -12,6 +12,7 @@ import {
   Languages,
   Lock,
   MapPin,
+  MessageCircle,
   Phone,
   ShieldCheck,
   Sparkles,
@@ -20,6 +21,11 @@ import {
   XCircle,
 } from "lucide-react";
 import type { SiteSettings, Subject } from "@/lib/types";
+import {
+  formatBdPhoneDisplay,
+  toTelHref,
+  toWhatsAppDigits,
+} from "@/lib/contact";
 import TutorApplicationForm, { type Lang } from "./TutorApplicationForm";
 
 interface Props {
@@ -529,10 +535,27 @@ export default function LandingClient({ settings, subjects }: Props) {
                 </div>
                 <div className="flex items-center gap-2.5">
                   <Phone className="w-4 h-4 text-teal-700 shrink-0" />
-                  <span className="text-[#0B162C]/85 font-semibold">
-                    {settings.contactPhone}
-                  </span>
+                  <a
+                    href={toTelHref(settings.contactPhone)}
+                    className="text-[#0B162C]/85 font-semibold hover:text-teal-800 hover:underline"
+                  >
+                    {isBn ? "কল:" : "Phone:"}{" "}
+                    {formatBdPhoneDisplay(settings.contactPhone)}
+                  </a>
                 </div>
+                {toWhatsAppDigits(settings.whatsappNumber) && (
+                  <div className="flex items-center gap-2.5">
+                    <MessageCircle className="w-4 h-4 text-emerald-700 shrink-0" />
+                    <a
+                      href={`https://wa.me/${toWhatsAppDigits(settings.whatsappNumber)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[#0B162C]/85 font-semibold hover:text-emerald-800 hover:underline"
+                    >
+                      WhatsApp: {formatBdPhoneDisplay(settings.whatsappNumber)}
+                    </a>
+                  </div>
+                )}
                 <div className="pt-2 border-t border-[#0B162C]/10">
                   <Link
                     href="/apply"
@@ -577,20 +600,25 @@ export default function LandingClient({ settings, subjects }: Props) {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-5 text-xs">
-            <span>{settings.contactPhone}</span>
+            <a
+              href={toTelHref(settings.contactPhone)}
+              className="inline-flex items-center gap-1.5 font-semibold text-[#0B162C] hover:text-teal-800 hover:underline"
+            >
+              <Phone className="w-3.5 h-3.5 text-teal-700" />
+              <span>{formatBdPhoneDisplay(settings.contactPhone)}</span>
+            </a>
+            {toWhatsAppDigits(settings.whatsappNumber) && (
+              <a
+                href={`https://wa.me/${toWhatsAppDigits(settings.whatsappNumber)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 font-semibold text-emerald-800 hover:underline"
+              >
+                <MessageCircle className="w-3.5 h-3.5 text-emerald-700" />
+                <span>WhatsApp: {formatBdPhoneDisplay(settings.whatsappNumber)}</span>
+              </a>
+            )}
             <span>{settings.contactEmail}</span>
-            <Link
-              href="/apply"
-              className="text-teal-800 hover:underline font-semibold"
-            >
-              {isBn ? "রেজিস্ট্রেশন পেজ (/apply)" : "Apply Page (/apply)"}
-            </Link>
-            <Link
-              href="/admin"
-              className="text-amber-800 hover:underline font-semibold"
-            >
-              Admin Dashboard →
-            </Link>
           </div>
         </div>
       </footer>

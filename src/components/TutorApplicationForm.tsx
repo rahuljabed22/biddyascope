@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import type { SiteSettings, Subject, TutorApplication } from "@/lib/types";
 import { buildTwoSubjectCombos } from "@/lib/subjects-combo";
+import { toWhatsAppDigits } from "@/lib/contact";
 
 export type Lang = "bn" | "en";
 
@@ -223,9 +224,9 @@ export default function TutorApplicationForm({
           >
             {isBn ? "আরেকটি আবেদন করুন" : "Submit Another Application"}
           </button>
-          {settings.whatsappNumber && (
+          {toWhatsAppDigits(settings.whatsappNumber) && (
             <a
-              href={`https://wa.me/${settings.whatsappNumber.replace(/\D/g, "")}?text=${encodeURIComponent(
+              href={`https://wa.me/${toWhatsAppDigits(settings.whatsappNumber)}?text=${encodeURIComponent(
                 `Hello BiddyaScope, I registered (${submittedApp.trackingCode}) for ${submittedApp.subjectName} (${submittedApp.studyMode === "group" ? "2-3 Student Group Batch" : "Solo 1-on-1"}) in ${submittedApp.area}.`
               )}`}
               target="_blank"

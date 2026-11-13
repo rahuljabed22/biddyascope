@@ -9,12 +9,18 @@ import {
   Languages,
   Layers,
   MapPin,
+  MessageCircle,
   Phone,
   ShieldCheck,
   Sparkles,
   Users,
 } from "lucide-react";
 import type { SiteSettings, Subject } from "@/lib/types";
+import {
+  formatBdPhoneDisplay,
+  toTelHref,
+  toWhatsAppDigits,
+} from "@/lib/contact";
 import TutorApplicationForm, { type Lang } from "./TutorApplicationForm";
 
 interface Props {
@@ -192,8 +198,27 @@ export default function ApplyLandingClient({ settings, subjects }: Props) {
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-teal-700 shrink-0" />
-                <span className="font-semibold">{settings.contactPhone}</span>
+                <a
+                  href={toTelHref(settings.contactPhone)}
+                  className="font-semibold hover:text-teal-800 hover:underline"
+                >
+                  {isBn ? "কল:" : "Phone:"}{" "}
+                  {formatBdPhoneDisplay(settings.contactPhone)}
+                </a>
               </div>
+              {toWhatsAppDigits(settings.whatsappNumber) && (
+                <div className="flex items-center gap-2.5">
+                  <MessageCircle className="w-4 h-4 text-emerald-700 shrink-0" />
+                  <a
+                    href={`https://wa.me/${toWhatsAppDigits(settings.whatsappNumber)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-semibold hover:text-emerald-800 hover:underline"
+                  >
+                    WhatsApp: {formatBdPhoneDisplay(settings.whatsappNumber)}
+                  </a>
+                </div>
+              )}
               <div className="flex items-center gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-teal-700 shrink-0" />
                 <span>
@@ -228,8 +253,25 @@ export default function ApplyLandingClient({ settings, subjects }: Props) {
             />
             <span>{isBn ? settings.footerTaglineBn : settings.footerTagline}</span>
           </div>
-          <div className="flex items-center gap-4">
-            <span>{settings.contactPhone}</span>
+          <div className="flex flex-wrap items-center gap-4">
+            <a
+              href={toTelHref(settings.contactPhone)}
+              className="inline-flex items-center gap-1.5 font-semibold text-[#0B162C] hover:text-teal-800 hover:underline"
+            >
+              <Phone className="w-3.5 h-3.5 text-teal-700" />
+              <span>{formatBdPhoneDisplay(settings.contactPhone)}</span>
+            </a>
+            {toWhatsAppDigits(settings.whatsappNumber) && (
+              <a
+                href={`https://wa.me/${toWhatsAppDigits(settings.whatsappNumber)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 font-semibold text-emerald-800 hover:underline"
+              >
+                <MessageCircle className="w-3.5 h-3.5 text-emerald-700" />
+                <span>WhatsApp: {formatBdPhoneDisplay(settings.whatsappNumber)}</span>
+              </a>
+            )}
             <Link href="/" className="text-teal-800 hover:underline font-semibold">
               {isBn ? "মূল পেজ →" : "Home →"}
             </Link>
