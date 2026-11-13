@@ -95,10 +95,10 @@ export default function ApplyLandingClient({ settings, subjects }: Props) {
       </header>
 
       {/* Light Theme Landing Body + Registration Form */}
-      <main className="flex-1 bg-gradient-to-b from-[#FAF8F4] via-[#FAF8F4] to-white py-10 sm:py-16">
+      <main className="flex-1 bg-gradient-to-b from-[#FAF8F4] via-[#FAF8F4] to-white py-5 sm:py-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 grid lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-          {/* Left Column: Authentic Personal-Effort Story + Combo & Group Rules */}
-          <div className="lg:col-span-5 space-y-5">
+          {/* Left Column on Desktop (Second on Mobile): Authentic Personal-Effort Story + Combo & Group Rules */}
+          <div className="lg:col-span-5 space-y-5 order-2 lg:order-1">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-900/10 border border-teal-800/20 text-teal-900 text-xs font-bold">
               <ShieldCheck className="w-4 h-4 text-teal-700" />
               <span>
@@ -234,8 +234,23 @@ export default function ApplyLandingClient({ settings, subjects }: Props) {
             </div>
           </div>
 
-          {/* Right Column: Light Theme Application Form */}
-          <div className="lg:col-span-7">
+          {/* Right Column on Desktop (First on Mobile): Light Theme Application Form */}
+          <div className="lg:col-span-7 order-1 lg:order-2">
+            <div className="lg:hidden mb-3.5 space-y-1.5">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-teal-900/10 border border-teal-800/20 text-teal-900 text-[11px] font-bold">
+                <ShieldCheck className="w-3.5 h-3.5 text-teal-700" />
+                <span>
+                  {isBn
+                    ? "হোম টিউটর রেজিস্ট্রেশন ফর্ম • ২টি ডেমো ক্লাস ফ্রি"
+                    : "Tutor Registration Form • 2 Free Demo Classes"}
+                </span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#0B162C]">
+                {isBn
+                  ? "ফর্ম পূরণ করে হোম টিউটরের আবেদন করুন"
+                  : "Fill Out the Form for a Verified Home Tutor"}
+              </h2>
+            </div>
             <TutorApplicationForm
               lang={lang}
               subjects={subjects}
