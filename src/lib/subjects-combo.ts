@@ -5,16 +5,12 @@ export interface SubjectCombo {
   subjectIds: [string, string];
   label: string;
   labelBn: string;
-  tag: string;
-  tagBn: string;
   priority: number;
 }
 
 interface RecommendedRule {
   matchA: string;
   matchB: string;
-  tag: string;
-  tagBn: string;
   priority: number;
 }
 
@@ -22,46 +18,42 @@ const RECOMMENDED_RULES: RecommendedRule[] = [
   {
     matchA: "physics",
     matchB: "math",
-    tag: "Best Engineering / KUET Combo",
-    tagBn: "সেরা ইঞ্জিনিয়ারিং / KUET কম্বো",
     priority: 1,
   },
   {
     matchA: "biology",
     matchB: "chemistry",
-    tag: "Best Medical / KMC Combo",
-    tagBn: "সেরা মেডিকেল / KMC কম্বো",
     priority: 2,
   },
   {
     matchA: "physics",
     matchB: "chemistry",
-    tag: "Core Physical Science Combo",
-    tagBn: "কোর ফিজিক্যাল সায়েন্স কম্বো",
     priority: 3,
   },
   {
     matchA: "chemistry",
     matchB: "math",
-    tag: "Analytical Science Combo",
-    tagBn: "অ্যানালিটিক্যাল সায়েন্স কম্বো",
     priority: 4,
   },
-  {
-    matchA: "physics",
-    matchB: "biology",
-    tag: "Balanced Science Combo",
-    tagBn: "ব্যালেন্সড সায়েন্স কম্বো",
-    priority: 5,
-  },
-  {
-    matchA: "math",
-    matchB: "biology",
-    tag: "All-Rounder HSC Combo",
-    tagBn: "অলরাউন্ডার HSC কম্বো",
-    priority: 6,
-  },
 ];
+
+const EXCLUDED_PAIRS: Array<[string, string]> = [
+  ["physics", "biology"],
+  ["পদার্থ", "জীব"],
+  ["math", "biology"],
+  ["গণিত", "জীব"],
+];
+
+function isExcludedCombo(a: Subject, b: Subject): boolean {
+  const nameA = `${a.id} ${a.name} ${a.nameBn || ""}`.toLowerCase();
+  const nameB = `${b.id} ${b.name} ${b.nameBn || ""}`.toLowerCase();
+
+  return EXCLUDED_PAIRS.some(
+    ([first, second]) =>
+      (nameA.includes(first) && nameB.includes(second)) ||
+      (nameA.includes(second) && nameB.includes(first))
+  );
+}
 
 function findRecommendedRule(a: Subject, b: Subject): RecommendedRule | null {
   const nameA = `${a.id} ${a.name}`.toLowerCase();
@@ -84,6 +76,10 @@ export function buildTwoSubjectCombos(subjects: Subject[]): SubjectCombo[] {
     for (let j = i + 1; j < subjects.length; j++) {
       const a = subjects[i];
       const b = subjects[j];
+      if (isExcludedCombo(a, b)) {
+        continue;
+      }
+
       const rule = findRecommendedRule(a, b);
       const id = `combo:${a.id}__${b.id}`;
       const labelA = a.name;
@@ -96,8 +92,6 @@ export function buildTwoSubjectCombos(subjects: Subject[]): SubjectCombo[] {
         subjectIds: [a.id, b.id],
         label: `${labelA} + ${labelB}`,
         labelBn: `${bnA} + ${bnB}`,
-        tag: rule ? rule.tag : `${a.level} Custom Combo`,
-        tagBn: rule ? rule.tagBn : `${a.level} কম্বিনেশন`,
         priority: rule ? rule.priority : 50 + i * 10 + j,
       });
     }

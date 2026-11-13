@@ -88,7 +88,7 @@ export default function TutorApplicationForm({
   }, [subjects, singleSubjectId]);
 
   useEffect(() => {
-    if (!comboId && combos[0]) {
+    if (combos.length > 0 && !combos.some((c) => c.id === comboId)) {
       setComboId(combos[0].id);
     }
   }, [combos, comboId]);
@@ -343,9 +343,7 @@ export default function TutorApplicationForm({
               >
                 {combos.map((combo) => (
                   <option key={combo.id} value={combo.id}>
-                    {isBn
-                      ? `${combo.labelBn} — (${combo.tagBn})`
-                      : `${combo.label} — (${combo.tag})`}
+                    {isBn ? combo.labelBn : combo.label}
                   </option>
                 ))}
               </select>
