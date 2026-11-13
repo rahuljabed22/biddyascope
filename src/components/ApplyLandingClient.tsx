@@ -22,6 +22,7 @@ import {
   toWhatsAppDigits,
 } from "@/lib/contact";
 import TutorApplicationForm, { type Lang } from "./TutorApplicationForm";
+import FreeDemoNotice from "./FreeDemoNotice";
 
 interface Props {
   settings: SiteSettings;
@@ -190,6 +191,9 @@ export default function ApplyLandingClient({ settings, subjects }: Props) {
                   : "You can study 1-on-1 solo or join a 2–3 student small batch. Register now—when other students in your area apply for the same subject, we will match you together. Once the batch is approved, classes begin!"}
               </p>
             </div>
+
+            {/* 2 Free Demo Classes Highlight */}
+            <FreeDemoNotice isBn={isBn} />
 
             <div className="rounded-2xl bg-white border border-[#0B162C]/10 p-5 shadow-sm space-y-2.5 text-xs text-[#0B162C]/80">
               <div className="flex items-start gap-2.5">

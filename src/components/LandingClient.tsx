@@ -27,6 +27,7 @@ import {
   toWhatsAppDigits,
 } from "@/lib/contact";
 import TutorApplicationForm, { type Lang } from "./TutorApplicationForm";
+import FreeDemoNotice from "./FreeDemoNotice";
 
 interface Props {
   settings: SiteSettings;
@@ -183,7 +184,7 @@ export default function LandingClient({ settings, subjects }: Props) {
                 </a>
               </div>
 
-              <div className="grid grid-cols-3 gap-3 pt-4 max-w-xl">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 max-w-2xl">
                 <div className="rounded-xl bg-white/90 border border-[#0B162C]/10 p-3.5">
                   <div className="text-xs text-[#0B162C]/60 font-semibold">
                     {isBn ? "টিউটর সার্কল" : "Trusted Circle"}
@@ -206,6 +207,14 @@ export default function LandingClient({ settings, subjects }: Props) {
                   </div>
                   <div className="text-sm sm:text-base font-extrabold text-amber-800 mt-0.5">
                     {isBn ? "একা / ২–৩ জন" : "Solo / 2–3 Group"}
+                  </div>
+                </div>
+                <div className="rounded-xl bg-emerald-50/90 border border-emerald-300/70 p-3.5">
+                  <div className="text-xs text-emerald-900/70 font-semibold">
+                    {isBn ? "ডেমো ক্লাস" : "Demo Classes"}
+                  </div>
+                  <div className="text-sm sm:text-base font-extrabold text-emerald-800 mt-0.5">
+                    {isBn ? "২টি ক্লাস ফ্রি" : "2 Free Demos"}
                   </div>
                 </div>
               </div>
@@ -406,6 +415,14 @@ export default function LandingClient({ settings, subjects }: Props) {
                       : "Only verified teachers visit the student's home—with flexible solo or 2–3 student batch matching."}
                   </span>
                 </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
+                  <span className="font-semibold text-emerald-950">
+                    {isBn
+                      ? "শুরুতেই ২টি ডেমো ক্লাস সম্পূর্ণ ফ্রি—ক্লাস ভালো লাগলে তবেই নিয়মিত টিউশন কনফার্ম করবেন।"
+                      : "First 2 demo classes are completely free—confirm regular tuition only after you are fully satisfied."}
+                  </span>
+                </li>
               </ul>
             </div>
           </div>
@@ -520,6 +537,9 @@ export default function LandingClient({ settings, subjects }: Props) {
                     : "Want to study with 2–3 students? Register now! When other students in your area apply for the same subject, we'll match you together and start once the batch is approved."}
                 </p>
               </div>
+
+              {/* 2 Free Demo Classes Highlight */}
+              <FreeDemoNotice isBn={isBn} />
 
               <div className="rounded-2xl bg-white border border-[#0B162C]/10 p-5 space-y-3 text-sm shadow-sm">
                 <div className="flex items-start gap-2.5">

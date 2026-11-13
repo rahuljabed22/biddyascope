@@ -15,6 +15,8 @@ import {
   DEFAULT_SETTINGS,
   DEFAULT_SUBJECTS,
   DEFAULT_TUTORS,
+  LEGACY_ANNOUNCEMENT_BN,
+  LEGACY_ANNOUNCEMENT_EN,
   LEGACY_ANTI_MEDIA_DESC_BN,
   LEGACY_CONTACT_PHONES,
   LEGACY_WHATSAPP_NUMBERS,
@@ -32,6 +34,12 @@ function resolveUpgradedSettings(existingData: Partial<SiteSettings>): {
   const needsWhatsappUpgrade = LEGACY_WHATSAPP_NUMBERS.has(
     (existingData.whatsappNumber || "").trim()
   );
+  const needsAnnouncementBnUpgrade =
+    !existingData.announcementTextBn ||
+    existingData.announcementTextBn === LEGACY_ANNOUNCEMENT_BN;
+  const needsAnnouncementEnUpgrade =
+    !existingData.announcementText ||
+    existingData.announcementText === LEGACY_ANNOUNCEMENT_EN;
 
   const base: SiteSettings = needsAntiMediaUpgrade
     ? {
@@ -52,8 +60,19 @@ function resolveUpgradedSettings(existingData: Partial<SiteSettings>): {
   if (needsWhatsappUpgrade) {
     base.whatsappNumber = DEFAULT_SETTINGS.whatsappNumber;
   }
+  if (needsAnnouncementBnUpgrade) {
+    base.announcementTextBn = DEFAULT_SETTINGS.announcementTextBn;
+  }
+  if (needsAnnouncementEnUpgrade) {
+    base.announcementText = DEFAULT_SETTINGS.announcementText;
+  }
 
-  const changed = needsAntiMediaUpgrade || needsPhoneUpgrade || needsWhatsappUpgrade;
+  const changed =
+    needsAntiMediaUpgrade ||
+    needsPhoneUpgrade ||
+    needsWhatsappUpgrade ||
+    needsAnnouncementBnUpgrade ||
+    needsAnnouncementEnUpgrade;
   if (changed) {
     base.updatedAt = new Date().toISOString();
   }

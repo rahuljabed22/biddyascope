@@ -248,19 +248,25 @@ export default function TutorApplicationForm({
       className="rounded-2xl bg-white text-[#0B162C] p-6 sm:p-8 shadow-lg shadow-[#0B162C]/5 space-y-5 border border-[#0B162C]/10"
     >
       {/* TRUST & PERSONAL INITIATIVE BANNER INSIDE FORM */}
-      <div className="rounded-xl bg-teal-50/70 border border-teal-700/20 p-4 space-y-1.5">
-        <div className="flex items-center gap-2 text-teal-900 font-extrabold text-xs sm:text-sm">
-          <ShieldCheck className="w-4 h-4 text-teal-700 shrink-0" />
-          <span>
-            {isBn
-              ? "কমিশনভিত্তিক টিউশন মিডিয়া নয় — সম্পূর্ণ ভেরিফায়েড ও সিলেক্টিভ হোম টিউটর"
-              : "Not a Commission-Based Tuition Media — Verified Selective Tutors Only"}
+      <div className="rounded-xl bg-teal-50/70 border border-teal-700/20 p-4 space-y-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2 text-teal-900 font-extrabold text-xs sm:text-sm">
+            <ShieldCheck className="w-4 h-4 text-teal-700 shrink-0" />
+            <span>
+              {isBn
+                ? "কমিশনভিত্তিক টিউশন মিডিয়া নয় — সম্পূর্ণ ভেরিফায়েড ও সিলেক্টিভ হোম টিউটর"
+                : "Not a Commission-Based Tuition Media — Verified Selective Tutors Only"}
+            </span>
+          </div>
+          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 border border-emerald-300 px-2.5 py-0.5 text-[11px] font-extrabold text-emerald-900">
+            <Sparkles className="w-3 h-3 text-emerald-700" />
+            <span>{isBn ? "২টি ডেমো ক্লাস ফ্রি" : "2 Free Demo Classes"}</span>
           </span>
         </div>
         <p className="text-[11px] sm:text-xs text-[#0B162C]/75 leading-relaxed">
           {isBn
-            ? "এটি আমাদের নিজেদের একটি উদ্যোগ—নিজেদের বন্ধু ও ছোট ভাই-বোনদের সার্কল (KUET ও খুলনা মেডিকেল) থেকে কেবল যারা দীর্ঘদিন ধরে অভিজ্ঞ এবং শুধুমাত্র HSC Science পড়ান, কেবল তাদেরকেই সরাসরি আপনার বাসায় পাঠানো হয়।"
-            : "This is our own personal effort—selecting strictly from our trusted circle of friends and juniors (KUET & Khulna Medical) who have years of experience teaching exclusively HSC Science."}
+            ? "এটি আমাদের নিজেদের একটি উদ্যোগ—নিজেদের বন্ধু ও ছোট ভাই-বোনদের সার্কল (KUET ও খুলনা মেডিকেল) থেকে কেবল যারা দীর্ঘদিন ধরে অভিজ্ঞ এবং শুধুমাত্র HSC Science পড়ান, কেবল তাদেরকেই সরাসরি আপনার বাসায় পাঠানো হয়। শুরুতেই ২টি ডেমো ক্লাস একদম ফ্রি পাবেন।"
+            : "This is our own personal effort—selecting strictly from our trusted circle of friends and juniors (KUET & Khulna Medical) who have years of experience teaching exclusively HSC Science. Your first 2 demo classes are completely free."}
         </p>
       </div>
 
@@ -649,6 +655,12 @@ export default function TutorApplicationForm({
           ? "হোম টিউটরের আবেদন জমা দিন"
           : "Submit Home Tutor Application"}
       </button>
+
+      <p className="text-center text-xs font-semibold text-emerald-800">
+        {isBn
+          ? "✓ আবেদনের পর শুরুতেই ২টি ডেমো ক্লাস সম্পূর্ণ ফ্রি — কোনো অগ্রিম ফি নেই।"
+          : "✓ First 2 demo classes are completely free — no upfront fee."}
+      </p>
     </form>
   );
 }

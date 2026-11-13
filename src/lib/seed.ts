@@ -16,12 +16,18 @@ export const LEGACY_WHATSAPP_NUMBERS = new Set([
   "01700000000",
 ]);
 
+export const LEGACY_ANNOUNCEMENT_EN =
+  "HSC Science Home Tutor Applications Open — Verified KUET & Khulna Medical (3rd & 4th Year) Mentors";
+
+export const LEGACY_ANNOUNCEMENT_BN =
+  "কমিশনভিত্তিক টিউশন মিডিয়া নয় — কুয়েট ও খুলনা মেডিকেলের অভিজ্ঞ ৩য় ও ৪র্থ বর্ষের সিলেক্টিভ HSC সায়েন্স মেন্টর";
+
 export const DEFAULT_SETTINGS: SiteSettings = {
   brandName: "বিদ্যাস্কোপ",
   announcementText:
-    "HSC Science Home Tutor Applications Open — Verified KUET & Khulna Medical (3rd & 4th Year) Mentors",
+    "2 Free Demo Classes Included — Verified KUET & Khulna Medical HSC Science Home Tutors",
   announcementTextBn:
-    "কমিশনভিত্তিক টিউশন মিডিয়া নয় — কুয়েট ও খুলনা মেডিকেলের অভিজ্ঞ ৩য় ও ৪র্থ বর্ষের সিলেক্টিভ HSC সায়েন্স মেন্টর",
+    "শুরুতেই ২টি ডেমো ক্লাস সম্পূর্ণ ফ্রি — কুয়েট ও খুলনা মেডিকেলের অভিজ্ঞ সিলেক্টিভ HSC সায়েন্স টিউটর",
   announcementActive: true,
   heroBadge: "Our Own Selective Initiative • Khulna",
   heroBadgeBn: "আমাদের নিজস্ব সিলেক্টিভ প্রচেষ্টা • খুলনা",
