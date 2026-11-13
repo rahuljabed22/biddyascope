@@ -11,7 +11,12 @@ import {
   Tutor,
   TutorApplication,
 } from "./types";
-import { DEFAULT_SETTINGS, DEFAULT_SUBJECTS, DEFAULT_TUTORS } from "./seed";
+import {
+  DEFAULT_SETTINGS,
+  DEFAULT_SUBJECTS,
+  DEFAULT_TUTORS,
+  LEGACY_ANTI_MEDIA_DESC_BN,
+} from "./seed";
 
 export type StorageMode = "postgres" | "file" | "ephemeral-tmp";
 
@@ -188,12 +193,30 @@ async function ensurePgReady(): Promise<void> {
         ALTER TABLE bs_applications ADD COLUMN IF NOT EXISTS group_preference TEXT NOT NULL DEFAULT '';
       `);
 
-      const settingsRes = await pool.query("SELECT id FROM bs_settings WHERE id = 'default'");
+      const settingsRes = await pool.query("SELECT id, data FROM bs_settings WHERE id = 'default'");
       if (settingsRes.rowCount === 0) {
         await pool.query(
           "INSERT INTO bs_settings (id, data, updated_at) VALUES ('default', $1::jsonb, NOW())",
           [JSON.stringify(DEFAULT_SETTINGS)]
         );
+      } else {
+        const existingData = (settingsRes.rows[0]?.data || {}) as Partial<SiteSettings>;
+        if (existingData.antiMediaDescriptionBn === LEGACY_ANTI_MEDIA_DESC_BN) {
+          const upgraded: SiteSettings = {
+            ...existingData,
+            ...DEFAULT_SETTINGS,
+            contactPhone: existingData.contactPhone || DEFAULT_SETTINGS.contactPhone,
+            whatsappNumber: existingData.whatsappNumber || DEFAULT_SETTINGS.whatsappNumber,
+            contactEmail: existingData.contactEmail || DEFAULT_SETTINGS.contactEmail,
+            serviceArea: existingData.serviceArea || DEFAULT_SETTINGS.serviceArea,
+            serviceAreaBn: existingData.serviceAreaBn || DEFAULT_SETTINGS.serviceAreaBn,
+            updatedAt: new Date().toISOString(),
+          };
+          await pool.query(
+            "UPDATE bs_settings SET data = $1::jsonb, updated_at = NOW() WHERE id = 'default'",
+            [JSON.stringify(upgraded)]
+          );
+        }
       }
 
       const subjRes = await pool.query("SELECT COUNT(*)::int AS cnt FROM bs_subjects");

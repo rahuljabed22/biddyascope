@@ -1,34 +1,42 @@
 import { SiteSettings, Subject, Tutor } from "./types";
 
+export const LEGACY_ANTI_MEDIA_DESC_BN =
+  "গতানুগতিক টিউশন মিডিয়া কেবল কমিশনের জন্য যাকে-তাকে পাঠিয়ে দেয়। কিন্তু বিদ্যাস্কোপে আমরা সিলেক্টিভ টিচার দেই—যাদের প্রত্যেকের রয়েছে ২ থেকে ৪+ বছরের পড়ানোর বাস্তব অভিজ্ঞতা এবং সবাই কুয়েট বা খুলনা মেডিকেলের ৩য় ও ৪র্থ বর্ষের শিক্ষার্থী।";
+
 export const DEFAULT_SETTINGS: SiteSettings = {
-  brandName: "BiddyaScope",
+  brandName: "বিদ্যাস্কোপ",
   announcementText:
-    "HSC Science Home Tutor Applications Open — Selective KUET & Khulna Medical College (3rd & 4th Year) Mentors",
+    "HSC Science Home Tutor Applications Open — Verified KUET & Khulna Medical (3rd & 4th Year) Mentors",
   announcementTextBn:
-    "এইচএসসি সায়েন্স হোম টিউটর আবেদন চলছে — কুয়েট ও খুলনা মেডিকেল কলেজের ৩য় ও ৪র্থ বর্ষের অভিজ্ঞ মেন্টর",
+    "কমিশনভিত্তিক টিউশন মিডিয়া নয় — কুয়েট ও খুলনা মেডিকেলের অভিজ্ঞ ৩য় ও ৪র্থ বর্ষের সিলেক্টিভ HSC সায়েন্স মেন্টর",
   announcementActive: true,
-  heroBadge: "Selective Home Mentorship • Khulna",
-  heroBadgeBn: "সিলেক্টিভ হোম মেন্টরশিপ • খুলনা",
-  heroTitle: "Not a Tuition Media. Only Proven, Selective Home Mentors.",
+  heroBadge: "Our Own Selective Initiative • Khulna",
+  heroBadgeBn: "আমাদের নিজস্ব সিলেক্টিভ প্রচেষ্টা • খুলনা",
+  heroTitle:
+    "Not a Commission-Based Tuition Media. Only Verified, Selective Mentors From Our Own Circle.",
   heroTitleBn:
-    "গতানুগতিক টিউশন মিডিয়া নয় — শুধুই বাছাইকৃত ও অভিজ্ঞ হোম টিউটর।",
+    "গতানুগতিক কোনো টিউশন মিডিয়া নয় — শুধুই আমাদের পরিচিত ও দীর্ঘদিনের অভিজ্ঞ ভেরিফায়েড HSC টিউটর।",
   heroSubtitle:
-    "We exclusively assign vetted 3rd & 4th year students from KUET and Khulna Medical College with years of real teaching experience for HSC Science (Physics, Chemistry, Higher Math & Biology).",
+    "This is our own close-knit initiative—built by experienced friends and juniors from KUET and Khulna Medical College (3rd & 4th Year) who teach exclusively HSC Science. Unlike commission-driven tuition media agencies, we send only personally verified, selective mentors directly to your home.",
   heroSubtitleBn:
-    "আমরা গতানুগতিক কোনো টিউশন মিডিয়া নই। কুয়েট (KUET) ও খুলনা মেডিকেল কলেজের ৩য় ও ৪র্থ বর্ষের দীর্ঘদিনের পড়ানোর অভিজ্ঞতাসম্পন্ন বাছাইকৃত টিচারদেরই কেবল আপনার বাসায় পাঠানো হয়।",
-  antiMediaTitle: "Why We Are Not a Conventional Tuition Media",
-  antiMediaTitleBn: "কেন আমরা গতানুগতিক টিউশন মিডিয়া নই",
+    "এটি আমাদের নিজেদেরই একটি বিশ্বস্ত প্রচেষ্টা—আমাদের পরিচিত বন্ধু ও ছোট ভাই-বোনদের মধ্য থেকে কেবল যারা দীর্ঘদিন ধরে অভিজ্ঞ এবং শুধুমাত্র HSC Science পড়ান, আমরা তাদেরকেই সিলেক্ট করি। অন্য টিউশন মিডিয়ার মতো কমিশনভিত্তিক কাজ না করে আমরা সরাসরি স্টুডেন্টের বাসায় একেবারে ভেরিফায়েড ও সিলেক্টিভ টিচার পাঠাই।",
+  antiMediaTitle: "Why We Are Completely Different From Tuition Media",
+  antiMediaTitleBn: "কেন আমরা গতানুগতিক টিউশন মিডিয়া থেকে সম্পূর্ণ আলাদা",
   antiMediaDescription:
-    "Conventional tuition media agencies forward random tutors just to collect commission. BiddyaScope works differently: every mentor is personally vetted, holds 2–4+ years of proven HSC teaching experience, and comes strictly from KUET or Khulna Medical College (3rd & 4th Year).",
+    "Other tuition media platforms work purely on commission and forward anyone available. We are completely different: this is our own personal effort with trusted, long-experienced friends and juniors from KUET & Khulna Medical College who teach ONLY HSC Science—so every home receives a thoroughly verified, selective teacher.",
   antiMediaDescriptionBn:
-    "গতানুগতিক টিউশন মিডিয়া কেবল কমিশনের জন্য যাকে-তাকে পাঠিয়ে দেয়। কিন্তু বিদ্যাস্কোপে আমরা সিলেক্টিভ টিচার দেই—যাদের প্রত্যেকের রয়েছে ২ থেকে ৪+ বছরের পড়ানোর বাস্তব অভিজ্ঞতা এবং সবাই কুয়েট বা খুলনা মেডিকেলের ৩য় ও ৪র্থ বর্ষের শিক্ষার্থী।",
-  serviceArea: "Khulna City (Sonadanga, Boyra, Nirala, Khalishpur, Daulatpur, Gollamari & Nearby)",
-  serviceAreaBn: "খুলনা শহর (সোনাডাঙ্গা, বয়রা, নিরালা, খালিশপুর, দৌলতপুর, গল্লামারী ও পার্শ্ববর্তী এলাকা)",
+    "অন্যান্য টিউশন মিডিয়াগুলো যেভাবে কমিশনভিত্তিক ব্যবসা করে এবং যাকে-তাকে পাঠিয়ে দেয়, আমরা একদমই সেরকম নই। এটি আমাদের নিজেদেরই একটি উদ্যোগ—যেখানে আমাদের নিজেদের বন্ধু বা ছোট ভাই-বোনদের মধ্য থেকেই কেবল দীর্ঘদিনের অভিজ্ঞ ও শুধুমাত্র HSC পড়ানো টিচারদেরকেই বাছাই করা হয় এবং স্টুডেন্টের বাসায় একেবারে ভেরিফায়েড সিলেক্টিভ টিচার পাঠানো হয়।",
+  serviceArea:
+    "Khulna City (Sonadanga, Boyra, Nirala, Khalishpur, Daulatpur, Gollamari & Nearby)",
+  serviceAreaBn:
+    "খুলনা শহর (সোনাডাঙ্গা, বয়রা, নিরালা, খালিশপুর, দৌলতপুর, গল্লামারী ও পার্শ্ববর্তী এলাকা)",
   contactPhone: "+880 1700-000000",
   whatsappNumber: "8801700000000",
   contactEmail: "admissions@biddyascope.com",
-  footerTagline: "Selective HSC Science Home Tutoring by KUET & Khulna Medical College Mentors.",
-  footerTaglineBn: "কুয়েট ও খুলনা মেডিকেল কলেজের অভিজ্ঞ মেন্টরদের দ্বারা পরিচালিত সিলেক্টিভ এইচএসসি সায়েন্স হোম টিউটর সার্ভিস।",
+  footerTagline:
+    "Our own selective initiative — Verified, experienced HSC Science mentors from KUET & Khulna Medical College.",
+  footerTaglineBn:
+    "কোনো কমিশনভিত্তিক মিডিয়া নয় — কুয়েট ও খুলনা মেডিকেলের নিজেদের পরিচিত ও দীর্ঘদিনের অভিজ্ঞ ভেরিফায়েড HSC সায়েন্স টিউটরদের উদ্যোগ।",
   updatedAt: new Date().toISOString(),
 };
 

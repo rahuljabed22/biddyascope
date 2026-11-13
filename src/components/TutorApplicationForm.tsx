@@ -6,6 +6,7 @@ import {
   ChevronDown,
   Layers,
   MessageCircle,
+  ShieldCheck,
   Sparkles,
   User,
   Users,
@@ -243,8 +244,25 @@ export default function TutorApplicationForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-2xl bg-white text-[#0B162C] p-6 sm:p-8 shadow-2xl space-y-5 border border-[#0B162C]/10"
+      className="rounded-2xl bg-white text-[#0B162C] p-6 sm:p-8 shadow-lg shadow-[#0B162C]/5 space-y-5 border border-[#0B162C]/10"
     >
+      {/* TRUST & PERSONAL INITIATIVE BANNER INSIDE FORM */}
+      <div className="rounded-xl bg-teal-50/70 border border-teal-700/20 p-4 space-y-1.5">
+        <div className="flex items-center gap-2 text-teal-900 font-extrabold text-xs sm:text-sm">
+          <ShieldCheck className="w-4 h-4 text-teal-700 shrink-0" />
+          <span>
+            {isBn
+              ? "কমিশনভিত্তিক টিউশন মিডিয়া নয় — সম্পূর্ণ ভেরিফায়েড ও সিলেক্টিভ হোম টিউটর"
+              : "Not a Commission-Based Tuition Media — Verified Selective Tutors Only"}
+          </span>
+        </div>
+        <p className="text-[11px] sm:text-xs text-[#0B162C]/75 leading-relaxed">
+          {isBn
+            ? "এটি আমাদের নিজেদের একটি উদ্যোগ—নিজেদের বন্ধু ও ছোট ভাই-বোনদের সার্কল (KUET ও খুলনা মেডিকেল) থেকে কেবল যারা দীর্ঘদিন ধরে অভিজ্ঞ এবং শুধুমাত্র HSC Science পড়ান, কেবল তাদেরকেই সরাসরি আপনার বাসায় পাঠানো হয়।"
+            : "This is our own personal effort—selecting strictly from our trusted circle of friends and juniors (KUET & Khulna Medical) who have years of experience teaching exclusively HSC Science."}
+        </p>
+      </div>
+
       {/* STEP 1: SUBJECT COUNT & SUBJECT/COMBO SELECTION */}
       <div className="rounded-xl bg-[#FAF8F4] border border-[#0B162C]/10 p-4 space-y-3.5">
         <div>

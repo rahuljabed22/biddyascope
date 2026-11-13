@@ -21,9 +21,9 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BiddyaScope | Selective HSC Science Home Tutors — KUET & Khulna Medical",
+  title: "বিদ্যাস্কোপ | Selective HSC Science Home Tutors — KUET & Khulna Medical",
   description:
-    "Not a conventional tuition media. BiddyaScope provides strictly vetted, experienced 3rd & 4th year mentors from KUET and Khulna Medical College for HSC Science (Physics, Chemistry, Higher Math, Biology).",
+    "Not a commission-based tuition media. Our own selective initiative assigning long-experienced, verified HSC Science home tutors from KUET and Khulna Medical College.",
 };
 
 export default function RootLayout({

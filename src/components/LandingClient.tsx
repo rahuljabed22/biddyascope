@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -8,7 +9,6 @@ import {
   BookOpen,
   CheckCircle2,
   ExternalLink,
-  GraduationCap,
   Languages,
   Lock,
   MapPin,
@@ -69,21 +69,18 @@ export default function LandingClient({ settings, subjects }: Props) {
         </div>
       )}
 
-      {/* Navbar */}
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-[#FAF8F4]/90 border-b border-[#0B162C]/10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-[#0B162C] text-white flex items-center justify-center shadow-sm group-hover:bg-teal-800 transition-colors">
-              <GraduationCap className="w-5 h-5 text-amber-300" />
-            </div>
-            <div>
-              <span className="font-extrabold text-lg tracking-tight block leading-none">
-                {settings.brandName}
-              </span>
-              <span className="text-[10px] uppercase tracking-widest text-teal-800 font-semibold">
-                {isBn ? "সিলেক্টিভ হোম টিউশন" : "Selective Home Tutors"}
-              </span>
-            </div>
+      {/* Navbar with Uploaded Logo Only (No 'BiddyaScope' text) */}
+      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/90 border-b border-[#0B162C]/10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logo.png"
+              alt="বিদ্যাস্কোপ"
+              width={636}
+              height={488}
+              priority
+              className="h-14 sm:h-16 w-auto object-contain"
+            />
           </Link>
 
           <nav className="hidden md:flex items-center gap-7 text-sm font-semibold text-[#0B162C]/80">
@@ -105,7 +102,7 @@ export default function LandingClient({ settings, subjects }: Props) {
             <button
               type="button"
               onClick={() => setLang(isBn ? "en" : "bn")}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#0B162C]/15 bg-white text-xs font-semibold hover:bg-[#0B162C]/5 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#0B162C]/15 bg-[#FAF8F4] text-xs font-semibold hover:bg-[#0B162C]/5 transition-colors cursor-pointer"
               title="Switch Language"
             >
               <Languages className="w-3.5 h-3.5 text-teal-700" />
@@ -181,23 +178,23 @@ export default function LandingClient({ settings, subjects }: Props) {
               </div>
 
               <div className="grid grid-cols-3 gap-3 pt-4 max-w-xl">
-                <div className="rounded-xl bg-white/80 border border-[#0B162C]/10 p-3.5">
+                <div className="rounded-xl bg-white/90 border border-[#0B162C]/10 p-3.5">
                   <div className="text-xs text-[#0B162C]/60 font-semibold">
-                    {isBn ? "টিউটর সোর্স" : "Tutor Pool"}
+                    {isBn ? "টিউটর সার্কল" : "Trusted Circle"}
                   </div>
                   <div className="text-sm sm:text-base font-extrabold text-teal-900 mt-0.5">
                     KUET & KMC
                   </div>
                 </div>
-                <div className="rounded-xl bg-white/80 border border-[#0B162C]/10 p-3.5">
+                <div className="rounded-xl bg-white/90 border border-[#0B162C]/10 p-3.5">
                   <div className="text-xs text-[#0B162C]/60 font-semibold">
-                    {isBn ? "অধ্যয়নরত বর্ষ" : "Academic Year"}
+                    {isBn ? "ক্লাস ফোকাস" : "Focus Only"}
                   </div>
                   <div className="text-sm sm:text-base font-extrabold text-[#0B162C] mt-0.5">
-                    {isBn ? "৩য় ও ৪র্থ বর্ষ" : "3rd & 4th Year"}
+                    HSC Science
                   </div>
                 </div>
-                <div className="rounded-xl bg-white/80 border border-[#0B162C]/10 p-3.5">
+                <div className="rounded-xl bg-white/90 border border-[#0B162C]/10 p-3.5">
                   <div className="text-xs text-[#0B162C]/60 font-semibold">
                     {isBn ? "পড়ার ধরন" : "Study Format"}
                   </div>
@@ -210,80 +207,81 @@ export default function LandingClient({ settings, subjects }: Props) {
 
             {/* Right Selective Verification Card */}
             <div className="lg:col-span-5">
-              <div className="rounded-2xl bg-[#0B162C] text-white p-6 sm:p-8 shadow-2xl border border-white/10 relative overflow-hidden">
-                <div className="absolute -right-12 -top-12 w-40 h-40 rounded-full bg-teal-500/15 blur-2xl" />
-                <div className="flex items-center justify-between border-b border-white/15 pb-4 mb-5">
+              <div className="rounded-2xl bg-white text-[#0B162C] p-6 sm:p-8 shadow-xl shadow-[#0B162C]/5 border border-[#0B162C]/10 relative overflow-hidden">
+                <div className="flex items-center justify-between border-b border-[#0B162C]/10 pb-4 mb-5">
                   <div>
-                    <span className="text-[11px] uppercase tracking-widest text-amber-300 font-bold">
-                      {isBn ? "সিলেক্টিভ স্ট্যান্ডার্ড" : "Selective Vetting"}
+                    <span className="text-[11px] uppercase tracking-widest text-amber-700 font-bold">
+                      {isBn ? "আমাদের নিজস্ব উদ্যোগ" : "Our Own Effort"}
                     </span>
-                    <h2 className="text-lg font-bold mt-0.5">
+                    <h2 className="text-lg font-extrabold mt-0.5">
                       {isBn
-                        ? "টিউটর বাছাইয়ের ৪টি কঠোর শর্ত"
-                        : "4-Step Mentor Qualification"}
+                        ? "টিউটর সিলেকশনের ৪টি মূলনীতি"
+                        : "4 Pillars of Our Selective Model"}
                     </h2>
                   </div>
-                  <Award className="w-7 h-7 text-amber-300 shrink-0" />
+                  <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center shrink-0">
+                    <Award className="w-5 h-5 text-amber-700" />
+                  </div>
                 </div>
 
                 <ul className="space-y-4 text-sm">
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-teal-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 text-teal-700 shrink-0 mt-0.5" />
                     <div>
                       <p className="font-bold">
                         {isBn
-                          ? "শুধুমাত্র KUET ও খুলনা মেডিকেল"
-                          : "Exclusively KUET & Khulna Medical"}
+                          ? "নিজেদের বন্ধু ও ছোট ভাই-বোনদের প্রচেষ্টা"
+                          : "Built With Trusted Friends & Juniors"}
                       </p>
-                      <p className="text-white/70 text-xs mt-0.5">
+                      <p className="text-[#0B162C]/70 text-xs mt-0.5">
                         {isBn
-                          ? "৩য় ও ৪র্থ বর্ষের শিক্ষার্থী—যাদের নিজস্ব সাবজেক্টে গভীর দখল রয়েছে।"
-                          : "3rd & 4th year students with proven mastery in Engineering & Medical sciences."}
+                          ? "বাইরের অচেনা কাউকে নয়—আমাদের নিজের পরিচিত KUET ও খুলনা মেডিকেলের (৩য় ও ৪র্থ বর্ষ) সার্কল থেকেই টিচার নেওয়া হয়।"
+                          : "No random outsiders—only trusted friends and juniors from KUET & Khulna Medical (3rd & 4th Year)."}
                       </p>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-teal-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 text-teal-700 shrink-0 mt-0.5" />
                     <div>
                       <p className="font-bold">
                         {isBn
-                          ? "বহু বছরের পড়ানোর বাস্তব অভিজ্ঞতা"
-                          : "Multi-Year Teaching Track Record"}
+                          ? "অন্যান্য মিডিয়ার মতো কমিশনভিত্তিক নয়"
+                          : "Zero Tuition-Media Commission"}
                       </p>
-                      <p className="text-white/70 text-xs mt-0.5">
+                      <p className="text-[#0B162C]/70 text-xs mt-0.5">
                         {isBn
-                          ? "নতুন বা অনভিজ্ঞ কাউকে নয়; কেবল অভিজ্ঞ মেন্টরদেরই বাসায় পাঠানো হয়।"
-                          : "No fresh/untested tutors. Every teacher has years of prior HSC mentoring."}
+                          ? "গতানুগতিক টিউশন মিডিয়াগুলো যেভাবে কমিশনের জন্য কাজ করে, আমরা একদমই সেরকম নই—আমরা সম্পূর্ণ আলাদা।"
+                          : "We completely reject commission-chasing media models and focus strictly on student outcomes."}
                       </p>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-teal-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 text-teal-700 shrink-0 mt-0.5" />
                     <div>
                       <p className="font-bold">
                         {isBn
-                          ? "১টি বা ২টি সাবজেক্ট ও গ্রুপ ব্যাচের সুবিধা"
-                          : "1 or 2 Subjects & Small Group Matching"}
+                          ? "দীর্ঘদিনের অভিজ্ঞ ও শুধুই HSC টিউটর"
+                          : "Long-Experienced HSC-Only Mentors"}
                       </p>
-                      <p className="text-white/70 text-xs mt-0.5">
+                      <p className="text-[#0B162C]/70 text-xs mt-0.5">
                         {isBn
-                          ? "একা পড়তে পারেন অথবা ২–৩ জনের ব্যাচে ম্যাচিংয়ের জন্য রেজিস্ট্রেশন করতে পারেন।"
-                          : "Study 1-on-1 solo or register to be matched into a 2–3 student batch."}
+                          ? "যারা অনেকদিন ধরে পড়াচ্ছেন এবং শুধুমাত্র HSC Science পড়ান, কেবল তাদেরকেই বাছাই করে বাসায় পাঠানো হয়।"
+                          : "Every teacher has multi-year experience and teaches exclusively HSC Science."}
                       </p>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-teal-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 text-teal-700 shrink-0 mt-0.5" />
                     <div>
                       <p className="font-bold">
                         {isBn
-                          ? "গতানুগতিক মিডিয়া কমিশন মডেল নয়"
-                          : "Zero Tuition-Media Compromise"}
+                          ? "বাসায় একেবারেই ভেরিফায়েড ও সিলেক্টিভ টিচার"
+                          : "Verified Selective Home Delivery"}
                       </p>
-                      <p className="text-white/70 text-xs mt-0.5">
+                      <p className="text-[#0B162C]/70 text-xs mt-0.5">
                         {isBn
-                          ? "টিউশন মিলিয়ে দিয়েই দায়িত্ব শেষ নয়—নিয়মিত প্রগ্রেস ও গাইডলাইন ফলোআপ।"
-                          : "Direct academic accountability instead of random agency forwarding."}
+                          ? "১টি বা ২টি সাবজেক্ট এবং একা কিংবা ২–৩ জনের গ্রুপে পড়ার সুযোগ—সরাসরি ভেরিফায়েড মেন্টর।"
+                          : "1 or 2 subjects, solo or 2–3 student batch matching—always verified before visiting."}
                       </p>
                     </div>
                   </li>
@@ -300,7 +298,7 @@ export default function LandingClient({ settings, subjects }: Props) {
         >
           <div className="max-w-3xl mx-auto text-center space-y-3 mb-12">
             <span className="inline-block text-xs font-extrabold uppercase tracking-widest text-teal-800 bg-teal-900/10 px-3 py-1 rounded-full">
-              {isBn ? "আমাদের দর্শন" : "Our Philosophy"}
+              {isBn ? "আমাদের দর্শন ও প্রচেষ্টা" : "Our Philosophy"}
             </span>
             <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
               {isBn ? settings.antiMediaTitleBn : settings.antiMediaTitle}
@@ -322,11 +320,11 @@ export default function LandingClient({ settings, subjects }: Props) {
                 <div>
                   <h3 className="font-bold text-lg text-rose-950">
                     {isBn
-                      ? "গতানুগতিক টিউশন মিডিয়া"
+                      ? "অন্যান্য গতানুগতিক টিউশন মিডিয়া"
                       : "Conventional Tuition Media"}
                   </h3>
                   <p className="text-xs text-rose-700/80">
-                    {isBn ? "যা আমরা কখনোই করি না" : "What we strictly reject"}
+                    {isBn ? "যা আমরা একদমই নই" : "What we completely reject"}
                   </p>
                 </div>
               </div>
@@ -335,71 +333,71 @@ export default function LandingClient({ settings, subjects }: Props) {
                   <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
                   <span>
                     {isBn
-                      ? "অভিজ্ঞতা বা পড়ানোর দক্ষতা যাচাই না করেই যেকোনো টিউটর পাঠিয়ে দেয়।"
-                      : "Sends unvetted tutors without checking teaching experience or subject depth."}
+                      ? "কমিশনভিত্তিক ব্যবসা—কমিশন পেলেই যাকে-তাকে যাচাই ছাড়াই বাসায় পাঠিয়ে দেয়।"
+                      : "Commission-based model—sends anyone available without real vetting."}
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
                   <span>
                     {isBn
-                      ? "শুধুমাত্র কমিশন আদায়ই মূল লক্ষ্য—শিক্ষার্থীর রেজাল্ট নিয়ে কোনো দায়বদ্ধতা নেই।"
-                      : "Commission-first mindset with zero follow-up on student improvement."}
+                      ? "অনেকদিন পড়ানোর বাস্তব অভিজ্ঞতা আছে কি না বা শুধু HSC পড়ায় কি না তা দেখে না।"
+                      : "Does not verify multi-year experience or dedicated HSC Science specialization."}
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
                   <span>
                     {isBn
-                      ? "১ম বর্ষের অনভিজ্ঞ টিচার দিয়ে বোর্ড ও এডমিশন লেভেলের HSC সায়েন্স পড়ানো।"
-                      : "Assigns inexperienced freshmen to critical HSC Science board & admission prep."}
+                      ? "টিউশন মিলিয়ে দেওয়ার পর শিক্ষার্থী বা অভিভাবকের সাথে কোনো দায়বদ্ধতা থাকে না।"
+                      : "Zero personal accountability once the initial introduction is over."}
                   </span>
                 </li>
               </ul>
             </div>
 
-            {/* BiddyaScope Selective Standard */}
-            <div className="rounded-2xl bg-gradient-to-br from-[#0B162C] to-[#11274B] text-white p-6 sm:p-8 shadow-xl border border-teal-500/30">
+            {/* Our Own Selective Effort */}
+            <div className="rounded-2xl bg-white border-2 border-teal-700/30 p-6 sm:p-8 shadow-md">
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-800 flex items-center justify-center">
                   <UserCheck className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg text-white">
+                  <h3 className="font-bold text-lg text-[#0B162C]">
                     {isBn
-                      ? "BiddyaScope সিলেক্টিভ মেন্টরশিপ"
-                      : "BiddyaScope Selective Standard"}
+                      ? "আমাদের নিজস্ব সিলেক্টিভ প্রচেষ্টা"
+                      : "Our Selective Mentor Standard"}
                   </h3>
-                  <p className="text-xs text-teal-300">
+                  <p className="text-xs text-teal-800 font-semibold">
                     {isBn
-                      ? "অভিজ্ঞতা ও মানের শতভাগ নিশ্চয়তা"
-                      : "Curated quality & accountability"}
+                      ? "সম্পূর্ণ আলাদা, স্বচ্ছ ও ভেরিফায়েড সিস্টেম"
+                      : "Completely different, verified & personal"}
                   </p>
                 </div>
               </div>
-              <ul className="space-y-3 text-sm text-white/85">
+              <ul className="space-y-3 text-sm text-[#0B162C]/85">
                 <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-teal-700 shrink-0 mt-0.5" />
                   <span>
                     {isBn
-                      ? "১০০% সিলেক্টিভ টিচার—সবাই KUET ও খুলনা মেডিকেলের ৩য় ও ৪র্থ বর্ষের শিক্ষার্থী।"
-                      : "100% selective mentors—strictly 3rd & 4th year students of KUET & Khulna Medical College."}
+                      ? "এটা আমাদের নিজেদেরই উদ্যোগ—নিজেদের পরিচিত বন্ধু ও ছোট ভাই-বোনদের (KUET ও খুলনা মেডিকেল) মধ্য থেকেই সিলেক্টিভ টিচার বাছাই।"
+                      : "Our own initiative—mentors are handpicked from our trusted friends and juniors at KUET & Khulna Medical College."}
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-teal-700 shrink-0 mt-0.5" />
                   <span>
                     {isBn
-                      ? "প্রত্যেক টিচারের বহু বছরের বাস্তব পড়ানোর অভিজ্ঞতা ও স্টুডেন্ট ফিডব্যাক যাচাইকৃত।"
-                      : "Every mentor holds multi-year proven HSC home-tutoring experience."}
+                      ? "কেবল যারা অনেকদিন ধরে পড়াচ্ছেন, অভিজ্ঞ এবং শুধুমাত্র HSC-ই পড়ান—শুধু তাদেরকেই রাখা হয়।"
+                      : "Only long-experienced tutors who teach exclusively HSC Science are selected."}
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-teal-700 shrink-0 mt-0.5" />
                   <span>
                     {isBn
-                      ? "একা বা ২–৩ জনের ছোট ব্যাচ ম্যাচিং—অভিভাবকের সাথে সরাসরি সমন্বয় ও মনিটরিং।"
-                      : "Flexible 1-on-1 or 2–3 student batch matching with direct guardian coordination."}
+                      ? "স্টুডেন্টের বাসায় একেবারেই ভেরিফায়েড টিচার পাঠানো হয়—একা অথবা ২–৩ জনের গ্রুপে পড়ার পূর্ণ সুবিধা।"
+                      : "Only verified teachers visit the student's home—with flexible solo or 2–3 student batch matching."}
                   </span>
                 </li>
               </ul>
@@ -479,66 +477,66 @@ export default function LandingClient({ settings, subjects }: Props) {
           </div>
         </section>
 
-        {/* STUDENT APPLICATION FORM ABOVE FOOTER */}
+        {/* LIGHT THEME STUDENT APPLICATION SECTION ABOVE FOOTER */}
         <section
           id="apply"
-          className="py-16 sm:py-20 bg-[#0B162C] text-white border-t border-white/10"
+          className="py-16 sm:py-20 bg-gradient-to-b from-[#FAF8F4] to-white text-[#0B162C] border-t border-[#0B162C]/10"
         >
           <div className="max-w-6xl mx-auto px-4 sm:px-6 grid lg:grid-cols-12 gap-10 items-start">
             <div className="lg:col-span-5 space-y-5">
-              <span className="inline-block text-xs font-extrabold uppercase tracking-widest text-amber-300 bg-amber-400/10 border border-amber-400/20 px-3 py-1 rounded-full">
-                {isBn ? "হোম টিউটর আবেদন" : "Student Application"}
+              <span className="inline-block text-xs font-extrabold uppercase tracking-widest text-teal-900 bg-teal-900/10 border border-teal-800/20 px-3 py-1 rounded-full">
+                {isBn ? "হোম টিউটর রেজিস্ট্রেশন" : "Student Registration"}
               </span>
               <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
                 {isBn
-                  ? "আপনার বাসার জন্য অভিজ্ঞ হোম টিউটর অনুরোধ করুন"
-                  : "Request a Selective Home Tutor"}
+                  ? "বাসায় ভেরিফায়েড ও সিলেক্টিভ হোম টিউটরের জন্য আবেদন করুন"
+                  : "Request a Verified, Selective Home Tutor"}
               </h2>
-              <p className="text-sm sm:text-base text-white/75 leading-relaxed">
+              <p className="text-sm sm:text-base text-[#0B162C]/75 leading-relaxed">
                 {isBn
-                  ? "১টি বা ২টি সাবজেক্ট এবং একা বা ২–৩ জনের গ্রুপ ব্যাচ—আপনার পছন্দ অনুযায়ী আবেদন করুন। আমাদের টিম কুয়েট বা খুলনা মেডিকেলের সবচেয়ে উপযুক্ত ৩য়/৪র্থ বর্ষের মেন্টর নির্ধারণ করে যোগাযোগ করবে।"
-                  : "Choose 1 or 2 subjects and solo or 2–3 student group format. Our academic coordinator will match you with a vetted 3rd or 4th year KUET or Khulna Medical mentor."}
+                  ? "অন্য টিউশন মিডিয়ার মতো কমিশনভিত্তিক কোনো ব্যবস্থা নয়—নিজেদের পরিচিত অভিজ্ঞ বন্ধু ও ছোট ভাই-বোনদের (KUET ও খুলনা মেডিকেল) মধ্য থেকে শুধুমাত্র HSC-তে দক্ষ মেন্টরকেই আপনার বাসায় পাঠানো হয়।"
+                  : "No commission-based tuition media shortcuts—we match you with a long-experienced, verified HSC Science mentor from our own KUET & Khulna Medical circle."}
               </p>
 
               {/* Group Batch Policy Highlight */}
-              <div className="rounded-2xl bg-amber-500/10 border border-amber-400/30 p-4 space-y-2">
-                <div className="flex items-center gap-2 text-amber-300 text-xs font-extrabold uppercase tracking-wider">
-                  <Users className="w-4 h-4" />
+              <div className="rounded-2xl bg-amber-50 border border-amber-300/80 p-4 space-y-2 shadow-sm">
+                <div className="flex items-center gap-2 text-amber-950 text-xs font-extrabold uppercase tracking-wider">
+                  <Users className="w-4 h-4 text-amber-700" />
                   <span>
                     {isBn
                       ? "২–৩ জনের ছোট গ্রুপ ব্যাচ সুবিধা"
                       : "2–3 Student Group Batch Policy"}
                   </span>
                 </div>
-                <p className="text-xs text-amber-100/90 leading-relaxed">
+                <p className="text-xs text-amber-950/85 leading-relaxed">
                   {isBn
                     ? "আপনি যদি ২–৩ জনের সাথে একসাথে পড়তে চান, সমস্যা নেই! আপাতত রেজিস্ট্রেশন করে রাখুন। আপনার এলাকায় আরও কেউ একই সাবজেক্টে রেজিস্ট্রেশন করলে আমরা আপনাদের একসাথে ম্যাচ করানোর চেষ্টা করব। ব্যাচ অ্যাপ্রুভ হলেই একসাথে পড়তে পারবেন।"
                     : "Want to study with 2–3 students? Register now! When other students in your area apply for the same subject, we'll match you together and start once the batch is approved."}
                 </p>
               </div>
 
-              <div className="rounded-2xl bg-white/5 border border-white/10 p-5 space-y-3 text-sm">
+              <div className="rounded-2xl bg-white border border-[#0B162C]/10 p-5 space-y-3 text-sm shadow-sm">
                 <div className="flex items-start gap-2.5">
-                  <MapPin className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-teal-700 shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-bold block text-white">
+                    <span className="font-bold block text-[#0B162C]">
                       {isBn ? "সার্ভিস এরিয়া" : "Service Coverage"}
                     </span>
-                    <span className="text-white/70 text-xs">
+                    <span className="text-[#0B162C]/70 text-xs">
                       {isBn ? settings.serviceAreaBn : settings.serviceArea}
                     </span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2.5">
-                  <Phone className="w-4 h-4 text-teal-400 shrink-0" />
-                  <span className="text-white/85 font-semibold">
+                  <Phone className="w-4 h-4 text-teal-700 shrink-0" />
+                  <span className="text-[#0B162C]/85 font-semibold">
                     {settings.contactPhone}
                   </span>
                 </div>
-                <div className="pt-2 border-t border-white/10">
+                <div className="pt-2 border-t border-[#0B162C]/10">
                   <Link
                     href="/apply"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-300 hover:underline"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-800 hover:underline"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                     <span>
@@ -563,15 +561,18 @@ export default function LandingClient({ settings, subjects }: Props) {
         </section>
       </main>
 
-      {/* FOOTER */}
-      <footer className="bg-[#070E1C] text-white/75 py-10 border-t border-white/10">
+      {/* CLEAN LIGHT FOOTER WITH LOGO (NO 'BiddyaScope' text) */}
+      <footer className="bg-white text-[#0B162C]/75 py-10 border-t border-[#0B162C]/10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div>
-            <div className="flex items-center gap-2 text-white font-extrabold text-base">
-              <GraduationCap className="w-5 h-5 text-amber-300" />
-              <span>{settings.brandName}</span>
-            </div>
-            <p className="text-xs mt-1.5 max-w-md text-white/60">
+          <div className="space-y-2">
+            <Image
+              src="/logo.png"
+              alt="বিদ্যাস্কোপ"
+              width={636}
+              height={488}
+              className="h-12 w-auto object-contain"
+            />
+            <p className="text-xs max-w-md text-[#0B162C]/65">
               {isBn ? settings.footerTaglineBn : settings.footerTagline}
             </p>
           </div>
@@ -580,13 +581,13 @@ export default function LandingClient({ settings, subjects }: Props) {
             <span>{settings.contactEmail}</span>
             <Link
               href="/apply"
-              className="text-teal-300 hover:underline font-semibold"
+              className="text-teal-800 hover:underline font-semibold"
             >
               {isBn ? "রেজিস্ট্রেশন পেজ (/apply)" : "Apply Page (/apply)"}
             </Link>
             <Link
               href="/admin"
-              className="text-amber-300 hover:underline font-semibold"
+              className="text-amber-800 hover:underline font-semibold"
             >
               Admin Dashboard →
             </Link>
