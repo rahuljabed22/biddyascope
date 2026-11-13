@@ -21,9 +21,34 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.biddyascope.online"),
   title: "বিদ্যাস্কোপ | Selective HSC Science Home Tutors — KUET & Khulna Medical",
   description:
-    "Not a commission-based tuition media. Our own selective initiative assigning long-experienced, verified HSC Science home tutors from KUET and Khulna Medical College.",
+    "Not a commission-based tuition media. Our own selective initiative assigning long-experienced, verified HSC Science home tutors from KUET and Khulna Medical College. 2 Free Demo Classes included.",
+  openGraph: {
+    title: "বিদ্যাস্কোপ | Selective HSC Science Home Tutors — KUET & KMC",
+    description:
+      "কোনো টিউশন মিডিয়া নয় — কুয়েট ও খুলনা মেডিকেলের অভিজ্ঞ মেন্টর। শুরুতেই ২টি ডেমো ক্লাস সম্পূর্ণ ফ্রি।",
+    url: "/",
+    siteName: "বিদ্যাস্কোপ",
+    locale: "bn_BD",
+    type: "website",
+    images: [
+      {
+        url: "/logo.png",
+        width: 636,
+        height: 488,
+        alt: "বিদ্যাস্কোপ",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "বিদ্যাস্কোপ | Selective HSC Science Home Tutors — KUET & KMC",
+    description:
+      "কোনো টিউশন মিডিয়া নয় — কুয়েট ও খুলনা মেডিকেলের অভিজ্ঞ মেন্টর। শুরুতেই ২টি ডেমো ক্লাস সম্পূর্ণ ফ্রি।",
+    images: ["/logo.png"],
+  },
 };
 
 export default function RootLayout({
